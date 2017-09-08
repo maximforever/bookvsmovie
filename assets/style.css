@@ -1,3 +1,24 @@
 body {
     background-color: orange;
 }
+
+div {
+    border: 1px solid black;
+    margin: 5px;
+}
+
+.image {
+    width: 100px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.rating {
+    font-size: 100px;
+}
+
+.title {
+    font-size: 50px;
+}

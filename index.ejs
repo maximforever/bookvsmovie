@@ -8,17 +8,43 @@
         <script type="text/javascript" src="script.js"></script>
     </head>
     <body>
-        <form action="javascript:;" method="post" id="book_form">
-            <div id="column_left">
-                <input type="text" id="book_name" placeholder="book name">
-                <button type="submit" id="book_submit">search book</button>
+        <div id="header">
+            <form action="javascript:;" method="post" id="search_form">
+                <div id="column_right">
+                    <input type="text" id="search_name" placeholder="book / movie name">
+                    <button type="submit" id="search_submit">search book / movie</button>
+                </div>
+            </form>
+        </div>
+        <div id="results">
+            <div id="book-column">
+                <div class="header">book</div>
+                <div id="book">
+                    <div class="rating"></div>
+                    <div class="ratingCount"></div>
+                    <a class="title" href="#" target="_blank"></a>
+                    <div class="year"></div>
+                    <div class="author"></div>
+                    <div class="image"></div>
+                    <button class="left">left</button>
+                    <div class="resultIndex"></div> of <div class="resultCount"></div>
+                    <button class="right">right</button>
+                </div>
             </div>
-        </form>
-        <form action="javascript:;" method="post" id="movie_form">
-            <div id="column_right">
-                <input type="text" id="movie_name" placeholder="movie name">
-                <button type="submit" id="movie_submit">search movie</button>
+            <div id="movie-column">
+                <div class="header">movie</div>
+                <div id="movie">
+                    <div class="rating"></div>
+                    <div class="ratingCount"></div>
+                    <a class="title" href="#" target="_blank"></a>
+                    <div class="year"></div>
+                    <div class="director"></div>
+                    <div class="image"></div>
+                    <button class="left">left</button>
+                    <div class="resultIndex"></div> of <div class="resultCount"></div>
+                    <button class="right">right</button>
+                </div>
             </div>
-        </form>
+        </div>
     </body>
 </html>

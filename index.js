@@ -4,6 +4,8 @@
     const path = require("path");                           // access paths
     const express = require("express");                     // express
     const bodyParser = require('body-parser');              // parse request body
+    const parser = require('xml2js');
+    const util = require('util');
 
     var request = require('request');                       // make reuests
 
@@ -37,43 +39,104 @@
     });
 
     app.post("/", function(req, res){
-        
-        if (!req.body.category) {
-            console.log("error: no category")
-        }
-        else if (req.body.category == "movie") {
-            console.log("movie")
-            console.log(req.body.name)
+      console.log("request: " + req.body.name)
+      if (!req.body.name || req.body.name.trim().length == 0) {
+        console.log("no request")
+        res.send("no results")
+      }
+      else {
+        try {
+          /* status */
+            var movieComplete = false
+            var bookComplete = false
+            var response = {
+              books: null,
+              movies: null
+            }
 
+            console.log(1)
+
+          /* movies */
             request.get("http://www.theimdbapi.org/api/find/movie?title=" + req.body.name, function (error, apiRes, body) {
-              console.log('error:', error); // Print the error if one occurred 
-              console.log('statusCode:', apiRes && apiRes.statusCode); // Print the response status code if a response was received 
-              console.log('body:', body); // Print the HTML for the Google homepage. 
-              res.send(body);
+              console.log(2)
+              if (error) {
+                movieComplete = true
+                console.log(error)
+              }
+              else {
+                body = JSON.parse(body);
+                
+                var movies = []
+                for(var i = 0; i < body.length; i ++){
+
+                  var movie = {
+                    title: body[i].title,
+                    director: body[i].director,
+                    rating: body[i].rating, 
+                    rating_count: body[i].rating_count,
+                    image: body[i].poster.thumb,
+                    date: body[i].release_date,
+                    url: body[i].url.url
+                  }
+
+                  movies.push(movie); 
+                }
+
+                response.movies = movies
+                movieComplete = true
+                checkIfDone();
+              }
             });
 
-            console.log("out here")
-        }
-        else if (req.body.category == "book") {
-            request.get("https://www.goodreads.com/search.xml?key=U1wxZmIggzQZaJYCRmqw&q=" + req.body.name, function (error, apiRes, body) {
-              console.log('error:', error); // Print the error if one occurred 
-              console.log('statusCode:', apiRes && apiRes.statusCode); // Print the response status code if a response was received 
-              console.log('body:', body); // Print the HTML for the Google homepage. 
+          /* books */
+            request.get("https://www.goodreads.com/search.xml?&key=U1wxZmIggzQZaJYCRmqw&q=" + req.body.name, function (error, apiRes, body) {
+              console.log(2)
+              if (error) {
+                bookComplete = true
+                console.log(error)
+              }
+              else {
+                parser.parseString(body, function(err, result) {
+                  var string = util.inspect(result, false, null)
+                  eval('var bookObject = new Object(' + string + ')');
+                  var works = bookObject.GoodreadsResponse.search[0].results[0].work;
 
-              var parser = new DOMParser()
-              var doc = parser.parseFromString(body, "application/xml")
+                  var books = [];
+                  for(var i = 0; i < works.length; i ++){
+                    var book = {
+                      title: works[i].best_book[0].title[0],
+                      author: works[i].best_book[0].author[0].name[0],
+                      rating: (Number(works[i].average_rating[0]) * 2), 
+                      rating_count: works[i].ratings_count[0]._,
+                      image: works[i].best_book[0].image_url[0],
+                      date: works[i].original_publication_month[0]._ + "/" +works[i].original_publication_day[0]._ + "/" + works[i].original_publication_year[0]._,
+                      url: "https://www.goodreads.com/book/show/" + (works[i].best_book[0].image_url[0].split(/\/|\./g)[7])
+                    }
 
-              var works = doc.querySelectorAll("work")
-                works = Array.prototype.slice.call(works)
+                    books.push(book); 
+                  }
 
-                console.log(works[0])
-
-
-
-
-              res.send(body);
+                  response.books = books
+                  bookComplete = true
+                  checkIfDone();
+                })
+              }  
             });
+
+          /* response */
+            function checkIfDone(){
+              console.log(3)
+              if (bookComplete && movieComplete){
+                console.log(4)
+                res.send(response)
+              }
+            }
         }
+        catch (error) {
+          console.log(error)
+          res.send("no results")
+        }
+      }
 
     });
 

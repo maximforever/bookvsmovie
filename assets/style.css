@@ -1,24 +1,304 @@
-body {
-    background-color: orange;
+/* page */
+    body {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+        width: 100vw;
+        min-height: 100vh;
+        background-color: #555555;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        
+    }
+
+    #question {
+        margin-top: 4vh;
+        margin-left: 5vw;
+        margin-bottom: 0;
+        color: white;
+        font-size: 1em;
+        margin-bottom: 3px;
+    }
+
+    #results {
+        min-height: 70vh;
+    }
+
+/* search */
+    #header {
+        min-height: 20vh;
+    }
+
+    #header input {
+        margin-left: 5vw;
+        height: 10vh;
+        font-size: 3em;
+        width: calc(90vw - 10vh - 20px);
+        padding: 0px 10px 0px 10px;
+        border: 0px;
+    }
+
+    #header button {
+        margin: 0;
+        height: 10vh;
+        width: 10vh;
+        background-color: #0daf0d;
+        color: white;
+        vertical-align: top;
+        border: 0px;
+        font-size: 4em;
+        cursor: pointer;
+    }
+
+    #header button:hover {
+        background-color: #3aca3a;
+        box-shadow: 0px 0px 5px #111111;
+    }
+
+    @keyframes spin {
+        100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+    #loading-container {
+        margin: 0;
+        height: 10vh;
+        width: 10vh;
+        background-color: #c8d419;
+        color: white;
+        vertical-align: top;
+        border: 0px;
+        font-size: 3.5em;
+        cursor: disabled;
+        text-align: center;
+        display: inline-block;
+    }
+
+    #loading-circle {
+        animation-name: spin;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+/* search results */
+    #book-column, #movie-column {
+        display: inline-block;
+        width: 50vw;
+    }
+
+    .result-header {
+        width: 42vw;
+        height: 3vh;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #dedeaf;
+        color: #222222;
+        padding: 5px 0px 5px 0px;
+    }
+
+    #book, #movie, #movie-error, #book-error {
+        background-color: gray;
+        width: 42vw;
+        height: 35vw;
+        text-align: center;
+        color: white;
+        overflow: hidden;
+    }
+
+    #book, #book-error, #book-column .result-header {
+        margin: 0px 3vw 0px 5vw;
+    }
+
+    #movie, #movie-error, #movie-column .result-header {
+        margin: 0px 5vw 0px 3vw;
+    }
+
+    .image {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 35vw;
+        width: 42vw;
+    }
+
+    .translucent {
+        display: inline-block;
+        width: calc(35vw - 20px);
+        height: calc(30vw - 20px);
+        margin: 2.5vw;
+        background-color: rgba(0,0,0,0.6);
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 2.5em;
+        padding: 5px;
+        text-decoration: none;
+        color: white;
+        text-shadow: 0px 0px 2px #111111;
+        display: block;
+        height: calc(25% - 10px);
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .title:hover {
+        color: #4390e2;
+        text-decoration: none;
+    }
+
+    .publication-info {
+        height: 5%;
+    }
+
+    .author, .director {
+        font-weight: bold;
+    }
+
+    .rating-info {
+        height: 60%;
+    }
+
+    .rating {
+        font-weight: bold;
+        font-size: 11em;
+    }
+
+/* nav */
+    .nav {
+        height: 10%;
+        margin-top: 10px;
+        font-size: 2em;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+    }
+
+    .left, .right {
+        cursor: pointer;
+        color: white;
+    }
+
+    .left:hover, .right:hover {
+        color: #4390e2;
+    }
+
+/* error */
+    .error {
+        padding: 10px;
+        background-color: #f1aba3;
+        color: red;
+        font-weight: bold;  
+        min-width: 80%;
+        margin-top: 5px;
+        display: block;
+    }
+
+/* hidden styling */
+    .hidden, #book-column.hidden, #movie-column.hidden, #loading-container.hidden, #book-error.hidden, #movie-error.hidden, #book.hidden, #movie.hidden {
+        display: none;
+    }
+
+
+/* footer */
+
+#footer {
+    float: right;
+    color: darkgray;
+    padding: 10px;
+    font-size: 1em;
 }
 
-div {
-    border: 1px solid black;
-    margin: 5px;
+#footer a, #footer a:visited {
+    text-decoration: none;
+    color: #0daf0d;
 }
 
-.image {
-    width: 100px;
-    height: 150px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+#footer a:hover, #footer a:active, #footer a:focus {
+    color: #4390e2;
 }
 
-.rating {
-    font-size: 100px;
-}
 
-.title {
-    font-size: 50px;
-}
+@media screen and (max-width: 980px){
+    /* page */
+        body {
+            overflow: visible;
+        }
+
+    /* search */
+        #header input {
+            font-size: 2.5em;
+        }
+
+        #header button {
+            font-size: 3em;
+        }
+
+        #loading-container {
+            font-size: 3em;
+        }
+
+    /* search results */
+        #book-column, #movie-column {
+            display: block;
+            width: 100vw;
+            margin-bottom: 5vh; 
+        }
+
+        .result-header {
+            width: 90vw;
+            height: 3vh;
+            font-size: 1em;
+        }
+
+        #book, #movie, #movie-error, #book-error {
+            width: 90vw;
+            height: 105vw;
+        }
+
+        #book, #book-error, #book-column .result-header {
+            margin: 0px 5vw 0px 5vw;
+        }
+
+        #movie, #movie-error, #movie-column .result-header {
+            margin: 0px 5vw 0px 5vw;
+        }
+
+        .image {
+            height: 100vw;
+            width: 70vw;
+        }
+
+        .translucent {
+            width: calc(85vw - 20px);
+            height: calc(100vw - 20px);
+            margin: 2.5vw;
+            padding: 10px;
+        }
+
+        .title {
+            font-size: 2em;
+        }
+
+        .rating {
+            font-size: 8em;
+        }
+
+    /* nav */
+        .nav {
+            margin-top: 0px;
+            font-size: 2em;
+        }
+
+        #footer {
+            font-size: 0.8em;
+        }
+
+}    

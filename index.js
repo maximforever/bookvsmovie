@@ -51,7 +51,9 @@
             var bookComplete = false
             var response = {
               books: null,
-              movies: null
+              movies: null,
+              booksFound: false,
+              moviesFound: false
             }
 
             console.log(1)
@@ -60,31 +62,44 @@
             request.get("http://www.theimdbapi.org/api/find/movie?title=" + req.body.name, function (error, apiRes, body) {
               console.log(2)
               if (error) {
-                movieComplete = true
                 console.log(error)
-              }
-              else {
-                body = JSON.parse(body);
-                
-                var movies = []
-                for(var i = 0; i < body.length; i ++){
-
-                  var movie = {
-                    title: body[i].title,
-                    director: body[i].director,
-                    rating: body[i].rating, 
-                    rating_count: body[i].rating_count,
-                    image: body[i].poster.thumb,
-                    date: body[i].release_date,
-                    url: body[i].url.url
-                  }
-
-                  movies.push(movie); 
-                }
-
-                response.movies = movies
                 movieComplete = true
                 checkIfDone();
+              }
+              else {
+                if (!body || body == "null" || !body.length) {
+                  console.log("no movies")
+                  movieComplete = true
+                  checkIfDone();
+                }
+                else {
+                  body = JSON.parse(body);
+                  var movies = []
+
+                  for(var i = 0; i < body.length; i ++){
+                    try {
+                      var movie = {
+                        title: body[i].title,
+                        director: body[i].director,
+                        rating: parseFloat(body[i].rating), 
+                        rating_count: body[i].rating_count,
+                        image: body[i].poster.thumb,
+                        year: body[i].release_date.substring(0, 4),
+                        url: body[i].url.url
+                      }
+
+                      movies.push(movie); 
+                    }
+                    catch (error) {
+                      console.log(error)
+                    }
+                  }
+
+                  response.movies = movies
+                  response.moviesFound = true
+                  movieComplete = true
+                  checkIfDone();
+                }
               }
             });
 
@@ -92,33 +107,47 @@
             request.get("https://www.goodreads.com/search.xml?&key=U1wxZmIggzQZaJYCRmqw&q=" + req.body.name, function (error, apiRes, body) {
               console.log(2)
               if (error) {
-                bookComplete = true
                 console.log(error)
-              }
-              else {
+                bookComplete = true
+                checkIfDone()
+              } else {
                 parser.parseString(body, function(err, result) {
                   var string = util.inspect(result, false, null)
                   eval('var bookObject = new Object(' + string + ')');
                   var works = bookObject.GoodreadsResponse.search[0].results[0].work;
 
-                  var books = [];
-                  for(var i = 0; i < works.length; i ++){
-                    var book = {
-                      title: works[i].best_book[0].title[0],
-                      author: works[i].best_book[0].author[0].name[0],
-                      rating: (Number(works[i].average_rating[0]) * 2), 
-                      rating_count: works[i].ratings_count[0]._,
-                      image: works[i].best_book[0].image_url[0],
-                      date: works[i].original_publication_month[0]._ + "/" +works[i].original_publication_day[0]._ + "/" + works[i].original_publication_year[0]._,
-                      url: "https://www.goodreads.com/book/show/" + (works[i].best_book[0].image_url[0].split(/\/|\./g)[7])
+                  if (!works || !works.length) {
+                    console.log("no books")
+                    bookComplete = true
+                    checkIfDone()
+                  }
+                  else {
+                    var books = [];
+
+                    for(var i = 0; i < works.length; i ++){
+                      try {
+                        var book = {
+                          title: works[i].best_book[0].title[0],
+                          author: works[i].best_book[0].author[0].name[0],
+                          rating: (Number(works[i].average_rating[0]) * 2), 
+                          rating_count: works[i].ratings_count[0]._,
+                          image: works[i].best_book[0].image_url[0],
+                          year: works[i].original_publication_year[0]._,
+                          url: "https://www.goodreads.com/book/show/" + (works[i].best_book[0].image_url[0].split(/\/|\./g)[7])
+                        }
+
+                        books.push(book);
+                      }
+                      catch (error) {
+                        console.log(error)
+                      }
                     }
 
-                    books.push(book); 
+                    response.books = books
+                    response.booksFound = true
+                    bookComplete = true
+                    checkIfDone();
                   }
-
-                  response.books = books
-                  bookComplete = true
-                  checkIfDone();
                 })
               }  
             });

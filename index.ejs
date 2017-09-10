@@ -2,49 +2,79 @@
     <html>
     <head>
         <title>book vs. movie</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Catamaran:400,700" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="shortcut icon" type="image/png" href="#">
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js""></script>
         <script type="text/javascript" src="script.js"></script>
+
     </head>
     <body>
-        <div id="header">
-            <form action="javascript:;" method="post" id="search_form">
-                <div id="column_right">
-                    <input type="text" id="search_name" placeholder="book / movie name">
-                    <button type="submit" id="search_submit">search book / movie</button>
-                </div>
-            </form>
-        </div>
-        <div id="results">
-            <div id="book-column">
-                <div class="header">book</div>
-                <div id="book">
-                    <div class="rating"></div>
-                    <div class="ratingCount"></div>
-                    <a class="title" href="#" target="_blank"></a>
-                    <div class="year"></div>
-                    <div class="author"></div>
-                    <div class="image"></div>
-                    <button class="left">left</button>
-                    <div class="resultIndex"></div> of <div class="resultCount"></div>
-                    <button class="right">right</button>
+        <div id="container">
+            <div id="header">
+                <p id = "question">Which is better - the book or the movie?</p>
+                <form action="javascript:;" method="post" id="search_form">
+                    <input type="text" id="search_name" placeholder="search book / movie name"><!--
+                    --><button type="submit" id="search_submit">&#10145;</button><!--
+                    --><div class = "hidden" id="loading-container">
+                        <div id="loading-circle">&#8635;</div>
+                    </div>
+                </form>
+            </div>
+            <div id="results">
+                <div id="book-column" class = "hidden">
+                    <div class="result-header">book</div><!--
+                    --><div id="book" class="image hidden">
+                        <div class="translucent">
+                            <a class="title" href="#" target="_blank"></a>
+                            <div class="publication-info">
+                                by <span class="author"></span> in <span class="year"></span>
+                            </div>
+                            <div class="rating-info">
+                                <div class="rating"></div>
+                                (<span class="ratingCount"></span> ratings)
+                            </div>
+                            <div class="nav">       
+                                <span class="left">&#9668;</span>
+                                <span class="resultIndex"></span> / <span class="resultCount"></span>
+                                <span class="right">&#9658;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "hidden" id = "book-error">
+                        <div class = "translucent">
+                            <p class = "error">No books with this title found</p>
+                        </div>
+                    </div>
+                </div><!--
+                --><div  id="movie-column" class = "hidden">
+                    <div class="result-header">movie</div><!--
+                    --><div id="movie" class="image hidden">
+                        <div class="translucent">
+                            <a class="title" href="#" target="_blank"></a>
+                            <div class="publication-info">
+                                by <span class="director"></span> in <span class="year"></span>
+                            </div>
+                            <div class="rating-info"> 
+                                <div class="rating"></div>
+                                (<span class="ratingCount"></span> ratings)
+                            </div>
+                            <div class="nav">      
+                                <span class="left">&#9668;</span>
+                                <span class="resultIndex"></span> / <span class="resultCount"></span>
+                                <span class="right">&#9658;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "hidden" id = "movie-error">
+                        <div class = "translucent">
+                            <p class = "error">No movies with this title found</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="movie-column">
-                <div class="header">movie</div>
-                <div id="movie">
-                    <div class="rating"></div>
-                    <div class="ratingCount"></div>
-                    <a class="title" href="#" target="_blank"></a>
-                    <div class="year"></div>
-                    <div class="director"></div>
-                    <div class="image"></div>
-                    <button class="left">left</button>
-                    <div class="resultIndex"></div> of <div class="resultCount"></div>
-                    <button class="right">right</button>
-                </div>
-            </div>
+            <div id = "footer"><a href = "https://github.com/maximforever/bookvsmovie" target = "_blank">Made</a> with love by <a href = "http://jamesmayr.com" target = "_blank">James Mayr</a> and <a href = "http://maximpekarsky.com" target = "_blank">Max Pekarsky</a> 
         </div>
     </body>
 </html>

@@ -54,6 +54,35 @@ $(document).ready(function() {
 
 
         function getFontSize(titleText){
+
+            var titleFontSize;
+
+            var textLength = titleText.length;
+
+
+            if($(window).width() < 980){
+                titleFontSize = 3 - 0.038 * textLength;
+
+                if(titleFontSize < 1) { 
+                    titleFontSize = 1
+                }
+
+            } else {
+                console.log("desktop");
+                if(textLength < 20){
+                    console.log("short text: " + textLength);
+                    titleFontSize = 3.6 - 0.065 * textLength;
+                } else {
+                    console.log("long text: " + textLength);
+                    titleFontSize = 2.2 - 0.029*textLength;  
+                }
+
+                if(titleFontSize < 1.2) { 
+                    titleFontSize = 1.2
+                }     
+            }
+
+            /*
             var titleArray = titleText.split(" ");
             var longestWord = "";
             for(var i = 0; i <  titleArray.length; i++){
@@ -62,7 +91,7 @@ $(document).ready(function() {
                 }
             }
 
-            var titleFontSize;
+            
 
             if($(window).width()< 980){
                 titleFontSize = 3 - 0.16 * longestWord.length;
@@ -71,7 +100,7 @@ $(document).ready(function() {
             }
             
             console.log("titleFontSize " + titleFontSize);
-
+*/
             return titleFontSize;
         }
 
@@ -103,7 +132,7 @@ $(document).ready(function() {
                 $("#book .resultIndex").text(index + 1)
                 $("#book .resultCount").text(results.books.length)
 
-
+                /* highlight the winning title */
                 if(book.rating > results.movies[movieIndex].rating){
                     $("#movie").css("box-shadow", "none");
                     $("#movie-column .result-header").css("background-color", "#dedeaf");
@@ -159,6 +188,7 @@ $(document).ready(function() {
                 $("#movie .resultIndex").text(index + 1)
                 $("#movie .resultCount").text(results.movies.length)
 
+                /* highlight the winning title */
                 if(movie.rating > results.books[bookIndex].rating){
                     $("#book").css("box-shadow", "none");
                     $("#book-column .result-header").css("background-color", "#dedeaf");

@@ -37,8 +37,8 @@ $(document).ready(function() {
                             bookIndex = movieIndex = 0
                             displayBook(bookIndex)
                             displayMovie(movieIndex);
-                        }
-                        else {
+
+                        } else {
                             console.log("no results")
                         }
 
@@ -62,8 +62,14 @@ $(document).ready(function() {
                 }
             }
 
-            console.log(longestWord);
-            var titleFontSize = 3.6 - 0.16 * longestWord.length;
+            var titleFontSize;
+
+            if($(window).width()< 980){
+                titleFontSize = 3 - 0.16 * longestWord.length;
+            } else {
+                titleFontSize = 3.6 - 0.16 * longestWord.length;
+            }
+            
             console.log("titleFontSize " + titleFontSize);
 
             return titleFontSize;
@@ -79,7 +85,6 @@ $(document).ready(function() {
                 $("#book-error").removeClass("hidden");
                 // error
             } else {
-
                 $("#book").removeClass("hidden");
                 $("#book-error").addClass("hidden");;
 
@@ -87,8 +92,7 @@ $(document).ready(function() {
 
                 if(!book.rating){
                     $("#book .rating").text("N/A")
-                }
-                else {
+                } else {
                     $("#book .rating").text(book.rating.toFixed(1))
                 }
                 $("#book .ratingCount").text(book.rating_count || 0)
@@ -99,10 +103,27 @@ $(document).ready(function() {
                 $("#book .resultIndex").text(index + 1)
                 $("#book .resultCount").text(results.books.length)
 
+
+                if(book.rating > results.movies[movieIndex].rating){
+                    $("#movie").css("box-shadow", "none");
+                    $("#movie-column .result-header").css("background-color", "#dedeaf");
+                    $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                    $("#book-column .result-header").css("background-color", "#fbfb61");
+                } else if (book.rating < results.movies[movieIndex].rating) {
+                    $("#book").css("box-shadow", "none");
+                    $("#book-column .result-header").css("background-color", "#dedeaf");
+                    $("#movie").css("box-shadow", "inset 0px 0px 25p #fbfb61");
+                    $("#movie-column .result-header").css("background-color", "#fbfb61");
+                } else {
+                    $("#movie-column .result-header").css("background-color", "#dedeaf");
+                    $("#book-column .result-header").css("background-color", "#dedeaf");
+                    $("#movie").css("box-shadow", "none");
+                    $("#book").css("box-shadow", "none");
+                }
+
                 if (book.image.length) {
                     $("#book.image").css("background-image", "url(" + book.image + ")")
-                }
-                else {
+                } else {
                     $("#book.image").css("background-image", "").css("background-color", "lightgray")
                 }
             }
@@ -127,8 +148,7 @@ $(document).ready(function() {
 
                 if(!movie.rating){
                     $("#movie .rating").text("N/A")
-                }
-                else {
+                } else {
                     $("#movie .rating").text(movie.rating.toFixed(1))
                 }
                 $("#movie .ratingCount").text(movie.rating_count || 0)
@@ -139,10 +159,26 @@ $(document).ready(function() {
                 $("#movie .resultIndex").text(index + 1)
                 $("#movie .resultCount").text(results.movies.length)
 
+                if(movie.rating > results.books[bookIndex].rating){
+                    $("#book").css("box-shadow", "none");
+                    $("#book-column .result-header").css("background-color", "#dedeaf");
+                    $("#movie").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                    $("#movie-column .result-header").css("background-color", "#fbfb61");
+                } else if (movie.rating < results.books[bookIndex].rating) {
+                    $("#movie").css("box-shadow", "none");
+                    $("#movie-column .result-header").css("background-color", "#dedeaf");
+                    $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                    $("#book-column .result-header").css("background-color", "#fbfb61");
+                } else {
+                    $("#movie-column .result-header").css("background-color", "#dedeaf");
+                    $("#book-column .result-header").css("background-color", "#dedeaf");
+                    $("#movie").css("box-shadow", "none");
+                    $("#book").css("box-shadow", "none");
+                }
+
                 if (movie.image.length) {
                     $("#movie.image").css("background-image", "url(" + movie.image + ")")
-                }
-                else {
+                } else {
                     $("#movie.image").css("background-image", "").css("background-color", "lightgray")
                 }
             }

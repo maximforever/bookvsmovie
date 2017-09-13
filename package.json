@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "author": "James Mayr and Max Pekarsky",
   "license": "ISC",
@@ -13,9 +13,11 @@
     "body-parser": "^1.17.2",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
+    "nodemon": "^1.12.0",
     "request": "^2.81.0",
     "xml2js": "^0.4.19"
-  }, "engines": {
+  },
+  "engines": {
     "node": "7.5.0"
   }
 }

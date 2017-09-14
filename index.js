@@ -186,7 +186,7 @@ MongoClient.connect(dbAddress, function(err, db){
                           rating_count: works[i].ratings_count[0]._,
                           image: works[i].best_book[0].image_url[0],
                           year: works[i].original_publication_year[0]._,
-                          url: "https://www.goodreads.com/book/show/" + (works[i].best_book[0].image_url[0].split(/\/|\./g)[7])
+                          url: "https://www.goodreads.com/book/show/" + (works[i].best_book[0].id[0]._)
                         }
 
                         books.push(book);

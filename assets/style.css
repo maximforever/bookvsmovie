@@ -213,7 +213,8 @@
     float: right;
     color: darkgray;
     padding: 10px;
-    font-size: 1em;
+    font-size: 0.9em;
+    text-align: right;
 }
 
 #footer a, #footer a:visited {

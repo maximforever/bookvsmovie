@@ -120,12 +120,12 @@ MongoClient.connect(dbAddress, function(err, db){
                 checkIfDone();
               }
               else {
-                if (!body || body == "null" || !body.length) {
+
+                if (!body || body == "null" || !body.length || (body[0] != "{" && body[0] != "[")) {
                   console.log("no movies")
                   movieComplete = true
                   checkIfDone();
-                }
-                else {
+                } else {
                   body = JSON.parse(body);
                   var movies = []
 

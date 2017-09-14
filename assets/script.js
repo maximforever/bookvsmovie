@@ -133,23 +133,25 @@ $(document).ready(function() {
                 $("#book .resultCount").text(results.books.length)
 
                 /* highlight the winning title */
-                if(book.rating > results.movies[movieIndex].rating){
-                    $("#movie").css("box-shadow", "none");
-                    $("#movie-column .result-header").css("background-color", "#dedeaf");
-                    $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
-                    $("#book-column .result-header").css("background-color", "#fbfb61");
-                } else if (book.rating < results.movies[movieIndex].rating) {
-                    $("#book").css("box-shadow", "none");
-                    $("#book-column .result-header").css("background-color", "#dedeaf");
-                    $("#movie").css("box-shadow", "inset 0px 0px 25p #fbfb61");
-                    $("#movie-column .result-header").css("background-color", "#fbfb61");
-                } else {
-                    $("#movie-column .result-header").css("background-color", "#dedeaf");
-                    $("#book-column .result-header").css("background-color", "#dedeaf");
-                    $("#movie").css("box-shadow", "none");
-                    $("#book").css("box-shadow", "none");
+                if(results.moviesFound){
+                    if(book.rating > results.movies[movieIndex].rating){
+                        $("#movie").css("box-shadow", "none");
+                        $("#movie-column .result-header").css("background-color", "#dedeaf");
+                        $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                        $("#book-column .result-header").css("background-color", "#fbfb61");
+                    } else if (book.rating < results.movies[movieIndex].rating) {
+                        $("#book").css("box-shadow", "none");
+                        $("#book-column .result-header").css("background-color", "#dedeaf");
+                        $("#movie").css("box-shadow", "inset 0px 0px 25p #fbfb61");
+                        $("#movie-column .result-header").css("background-color", "#fbfb61");
+                    } else {
+                        $("#movie-column .result-header").css("background-color", "#dedeaf");
+                        $("#book-column .result-header").css("background-color", "#dedeaf");
+                        $("#movie").css("box-shadow", "none");
+                        $("#book").css("box-shadow", "none");
+                    }
                 }
-
+                
                 if (book.image.length) {
                     $("#book.image").css("background-image", "url(" + book.image + ")")
                 } else {
@@ -189,21 +191,23 @@ $(document).ready(function() {
                 $("#movie .resultCount").text(results.movies.length)
 
                 /* highlight the winning title */
-                if(movie.rating > results.books[bookIndex].rating){
-                    $("#book").css("box-shadow", "none");
-                    $("#book-column .result-header").css("background-color", "#dedeaf");
-                    $("#movie").css("box-shadow", "inset 0px 0px 25px #fbfb61");
-                    $("#movie-column .result-header").css("background-color", "#fbfb61");
-                } else if (movie.rating < results.books[bookIndex].rating) {
-                    $("#movie").css("box-shadow", "none");
-                    $("#movie-column .result-header").css("background-color", "#dedeaf");
-                    $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
-                    $("#book-column .result-header").css("background-color", "#fbfb61");
-                } else {
-                    $("#movie-column .result-header").css("background-color", "#dedeaf");
-                    $("#book-column .result-header").css("background-color", "#dedeaf");
-                    $("#movie").css("box-shadow", "none");
-                    $("#book").css("box-shadow", "none");
+                if(results.booksFound){
+                    if(movie.rating > results.books[bookIndex].rating){
+                        $("#book").css("box-shadow", "none");
+                        $("#book-column .result-header").css("background-color", "#dedeaf");
+                        $("#movie").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                        $("#movie-column .result-header").css("background-color", "#fbfb61");
+                    } else if (movie.rating < results.books[bookIndex].rating) {
+                        $("#movie").css("box-shadow", "none");
+                        $("#movie-column .result-header").css("background-color", "#dedeaf");
+                        $("#book").css("box-shadow", "inset 0px 0px 25px #fbfb61");
+                        $("#book-column .result-header").css("background-color", "#fbfb61");
+                    } else {
+                        $("#movie-column .result-header").css("background-color", "#dedeaf");
+                        $("#book-column .result-header").css("background-color", "#dedeaf");
+                        $("#movie").css("box-shadow", "none");
+                        $("#book").css("box-shadow", "none");
+                    }
                 }
 
                 if (movie.image.length) {

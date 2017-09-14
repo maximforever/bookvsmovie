@@ -6,8 +6,11 @@
     const bodyParser = require('body-parser');              // parse request body
     const parser = require('xml2js');
     const util = require('util');
+    const MongoClient = require('mongodb').MongoClient;     // talk to mongo
 
     var request = require('request');                       // make reuests
+
+
 
 /* app setup */
     const app = express();                                  // create app
@@ -18,6 +21,20 @@
     app.listen(app.get("port"), function() {
         console.log("Server started on port " + app.get("port"));
     });
+
+
+    if(process.env.LIVE){                                                                           // this is how I do config, folks. put away your pitforks, we're all learning here.
+        dbAddress = "mongodb://" + process.env.MLAB_USERNAME + ":" + process.env.MLAB_PASSWORD + "@ds031551.mlab.com:35444/bookvsmovie";
+    } else {
+        dbAddress = "mongodb://localhost:27017/bookvsmovie";
+    }
+
+
+MongoClient.connect(dbAddress, function(err, db){
+    if (err){
+        console.log("MAYDAY! MAYDAY! Crashing.");
+        return console.log(err);
+    }
 
 
 /* middleware */
@@ -35,6 +52,24 @@
 
 /* routes */
     app.get("/", function(req, res){
+
+        // write IP to database
+
+        var userInfo = {
+          ip: req.connection.remoteAddress,
+          time: Date()
+        }
+
+        db.collection("ip").save(userInfo, function(err, result){
+            if (err){
+                console.log("MAYDAY! MAYDAY! Crashing.");
+                return console.log(err);
+            }
+            console.log("Successfully saved this search");
+            console.log(result.ops);
+        })
+
+
         res.render("index");
     });
 
@@ -57,6 +92,24 @@
             }
 
             console.log(1)
+
+            // write search result to the database
+
+            var thisSearch = {
+               name: req.body.name,
+               time: Date()
+            }
+
+            db.collection("search").save(thisSearch, function(err, result){
+                if (err){
+                    console.log("MAYDAY! MAYDAY! Crashing.");
+                    return console.log(err);
+                }
+                console.log("Successfully saved this search");
+                console.log(result.ops);
+            })
+
+
 
           /* movies */
             request.get("http://www.theimdbapi.org/api/find/movie?title=" + req.body.name, function (error, apiRes, body) {
@@ -169,7 +222,7 @@
 
     });
 
-
+});
     
 
 
